@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->string('class');
-            $table->time('time');
-            $table->unsignedBigInteger('price');;
+            $table->string('time');
+            $table->string('price');
             $table->integer('seat');
+            $table->date('date');
+            $table->string('from_city');
+            $table->string('to_city');
             $table->timestamps();
         });
     }

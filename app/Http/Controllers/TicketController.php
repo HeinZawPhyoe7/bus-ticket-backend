@@ -12,7 +12,33 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        $ticket = Ticket::all();
+
+        return response()->json([
+            'ticket' => $ticket,
+            'message' => 'success'
+        ]);
+    }
+
+    public function search(Request $request)
+    {
+        $query = Ticket::query();
+
+        if ($request->filled('from_city')) {
+            $query->where('from_city', $request->from_city);
+        }
+
+        if ($request->filled('to_city')) {
+            $query->where('to_city', $request->to_city);
+        }
+
+        if ($request->filled('date')) {
+            $query->where('date', $request->date);
+        }
+
+        $tickets = $query->get();
+
+        return response()->json($tickets); // Return JSON response or pass to a view
     }
 
     /**
@@ -33,6 +59,9 @@ class TicketController extends Controller
         $ticket->time = $request->time;
         $ticket->price = $request->price;
         $ticket->seat = $request->seat;
+        $ticket->date = $request->date;
+        $ticket->from_city = $request->from_city;
+        $ticket->to_city = $request->to_city;
         $ticket->save();
 
         return response()->json([
@@ -40,7 +69,11 @@ class TicketController extends Controller
             'class' => $ticket->class,
             'time' => $ticket->time,
             'price' => $ticket->price,
-            'seat' => $ticket->seat
+            'seat' => $ticket->seat,
+            'date' => $ticket->date,
+            'from_city' => $ticket->from_city,
+            'to_city' => $ticket->to_city,
+
         ]);
     }
 
@@ -74,5 +107,10 @@ class TicketController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function showcar()
+    {
+        $showCars = Ticket::where();
     }
 }
