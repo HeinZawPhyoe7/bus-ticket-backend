@@ -28,6 +28,21 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|email|max:255',
+            'gender' => 'required|in:Male,Female,Group,Monk',
+            'nation' => 'required|in:NRC,Passport,Other',
+            'state' => 'required|numeric',
+            'town' => 'required|string|max:50',
+            'citizenship' => 'required|in:C,AC,NC,V,M,N',
+            'nrc_number' => 'required|numeric',
+            'payment' => 'required|in:Booking,Payment',
+            'pickup_place' => 'required|string|max:100',
+            'selected_seat_no' => 'required|array|min:1',
+        ]);
+
         $user = new User();
         $user->name = $request->name;
         $user->phone = $request->phone;
@@ -40,6 +55,8 @@ class UserController extends Controller
         $user->nrc_number = $request->nrc_number;
         $user->payment = $request->payment;
         $user->pickup_place = $request->pickup_place;
+        $user->selected_seat_no = $request->selected_seat_no;
+        $user->total_seat = $request->total_seat;
         $user->save();
 
         return response()->json([
@@ -55,7 +72,8 @@ class UserController extends Controller
             'nrc_number' => $user->nrc_number,
             'payment' => $user->payment,
             'pickup_place' => $user->pickup_place,
-
+            'selected_seat_no' => $user->selected_seat_no,
+            'total_seat' => $user->total_seat,
         ]);
     }
 

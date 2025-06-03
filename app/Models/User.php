@@ -20,7 +20,22 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'phone',
+        'gender',
+        'nation',
+        'state',
+        'town',
+        'citizenship',
+        'nrc_number',
+        'payment',
+        'pickup_place',
+        'selected_seat_no',
+        'total_seat',
+        'ticket_id',
+    ];
+
+    protected $casts = [
+        'selected_seat_no' => 'array',
     ];
 
     /**

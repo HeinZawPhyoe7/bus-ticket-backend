@@ -25,8 +25,12 @@ return new class extends Migration
             $table->string('nrc_number');
             $table->string('payment');
             $table->string('pickup_place');
+            $table->string('total_seat');
+            $table->json('selected_seat_no');
+            $table->unsignedBigInteger('ticket_id');
             $table->rememberToken();
             $table->timestamps();
+            $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
