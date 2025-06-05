@@ -93,7 +93,7 @@ class UserController extends Controller
         }
 
         return response()->json([
-            'movie_details' => $userDetails,
+            'user_details' => $userDetails,
             'message' => 'success'
         ]);
     }
