@@ -41,6 +41,7 @@ class UserController extends Controller
             'payment' => 'required|in:Booking,Payment',
             'pickup_place' => 'required|string|max:100',
             'selected_seat_no' => 'required|array|min:1',
+            'ticket_id' => 'required|exists:tickets,id',
         ]);
 
         $user = new User();
@@ -57,6 +58,7 @@ class UserController extends Controller
         $user->pickup_place = $request->pickup_place;
         $user->selected_seat_no = $request->selected_seat_no;
         $user->total_seat = $request->total_seat;
+        $user->ticket_id = $request->ticket_id;
         $user->save();
 
         return response()->json([
@@ -74,15 +76,26 @@ class UserController extends Controller
             'pickup_place' => $user->pickup_place,
             'selected_seat_no' => $user->selected_seat_no,
             'total_seat' => $user->total_seat,
+            'ticket_id' => $user->ticket_id,
+
         ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($ticket_id)
     {
-        //
+        $userDetails = User::where('ticket_id', $ticket_id)->get();
+
+        if ($userDetails->isEmpty()) {
+            return response()->json(['message' => 'No user details found for this user_id.'], 404);
+        }
+
+        return response()->json([
+            'movie_details' => $userDetails,
+            'message' => 'success'
+        ]);
     }
 
     /**

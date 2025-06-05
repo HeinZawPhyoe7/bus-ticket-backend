@@ -16,3 +16,4 @@ Route::post('search-ticket', [TicketController::class, 'search'])->name('search'
 
 //User Api
 Route::post('create-user', [UserController::class, 'store'])->name('store');
+Route::get('show-user-details/{id}', [UserController::class, 'show'])->name('show_user-details');
