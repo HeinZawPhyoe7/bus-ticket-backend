@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -77,23 +78,23 @@ class UserController extends Controller
             'selected_seat_no' => $user->selected_seat_no,
             'total_seat' => $user->total_seat,
             'ticket_id' => $user->ticket_id,
-
         ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($ticket_id)
+    public function show($ticketId)
     {
-        $userDetails = User::where('ticket_id', $ticket_id)->get();
+        $ticket = Ticket::with('users')->find($ticketId);
 
-        if ($userDetails->isEmpty()) {
-            return response()->json(['message' => 'No user details found for this user_id.'], 404);
+        if (!$ticket) {
+            return response()->json(['message' => 'Ticket not found'], 404);
         }
 
         return response()->json([
-            'user_details' => $userDetails,
+            'ticket_details' => $ticket,
+            'user_details' => $ticket->users,
             'message' => 'success'
         ]);
     }

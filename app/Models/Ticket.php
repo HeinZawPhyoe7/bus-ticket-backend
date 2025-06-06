@@ -19,4 +19,9 @@ class Ticket extends Model
         'from_city',
         'to_city',
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

@@ -80,11 +80,19 @@ class TicketController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($ticketId)
     {
-        //
-    }
+        $ticketDetails = Ticket::find($ticketId); // OR ->where('id', $ticketId)->first()
 
+        if (!$ticketDetails) {
+            return response()->json(['message' => 'No ticket details found for this ticket_id.'], 404);
+        }
+
+        return response()->json([
+            'ticket_details' => $ticketDetails,
+            'message' => 'success'
+        ]);
+    }
     /**
      * Show the form for editing the specified resource.
      */
